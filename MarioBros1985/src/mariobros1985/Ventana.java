@@ -4,20 +4,22 @@ import java.awt.Color;
 import java.awt.Panel;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
-public class Ventana extends JFrame{
+public class Ventana extends JFrame implements Runnable{
     
-    private JPanel character;
-    private int x, y; 
+    JPanel character;
+    int x, y; 
 
     public Ventana(){
         
         this.setLayout(null);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setTitle("Ventana");
-        this.setSize(960,540);
+        this.setSize(960,600);
         this.Componente();
 
     }
@@ -327,11 +329,11 @@ public class Ventana extends JFrame{
             @Override
             public void keyPressed(KeyEvent e) {
                 String ch = String.valueOf(e.getKeyChar());
-                if (ch.equals("w")) {
+                /*if (ch.equals("w")) {
                     y -=20;
                 } else if (ch.equals("s")) {
                     y += 20;
-                } else if (ch.equals("a")) {
+                }*/ if (ch.equals("a")) {
                    x -=20;
 
                 } else if (ch.equals("d")) {
@@ -346,8 +348,52 @@ public class Ventana extends JFrame{
                 
             }
         });
-        
         character.requestFocusInWindow();
         
-    }                  
+    
+
+    }
+    
+    @Override
+     public void run(){
+        
+            boolean bandera = false;
+            while (true) {
+                try {
+                    if (bandera == false) {
+                        if (y > 100) {
+                            character.setBounds(   x, y -= 7, 500, 500);
+                        
+                        } else if (y > 20) {
+                            character.setBounds(   x, y -= 6, 500, 500);
+                        
+                        } else if (y > 150) {
+                            character.setBounds(   x, y -= 4, 500, 500);
+                        
+                        } else {
+                            bandera = true;
+                        }
+                    }
+                    if (bandera == true) {
+                        if (y < 150) {
+                            character.setBounds(   x, y += 4, 500, 500);
+                        
+                        } else if (y < 20) {
+                            character.setBounds(   x, y += 6, 500, 500);
+                        
+                        } else if (y < 25) {
+                            character.setBounds(   x, y += 7, 500, 500);
+                        
+                        } else {
+                            bandera = false;
+                        }
+                    }
+                    Thread.sleep(60);
+
+                } catch (InterruptedException ex) {
+                    Logger.getLogger(Ventana.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+     
+        }
 }

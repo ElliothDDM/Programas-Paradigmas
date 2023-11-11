@@ -7,6 +7,9 @@ public class MarioBros1985 {
         
         Ventana Ventana = new Ventana();
         Ventana.setVisible(true);
+        Ventana.setLocationRelativeTo(null);
+        Thread hilo=new Thread((Runnable) Ventana);
+        hilo.start();
     }
     
 }
